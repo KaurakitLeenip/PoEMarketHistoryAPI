@@ -1,0 +1,19 @@
+{
+  "name": "poemarketapi",
+  "version": "1.0.0",
+  "description": "PoE Market History API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "Kaurakit Leenip",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.8.3"
+  }
+}
