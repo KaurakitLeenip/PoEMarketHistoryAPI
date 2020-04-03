@@ -13,7 +13,9 @@
     "nodemon": "^2.0.2"
   },
   "dependencies": {
+    "csvtojson": "^2.0.10",
     "express": "^4.17.1",
+    "fast-csv": "^4.0.2",
     "mongoose": "^5.8.3"
   }
 }

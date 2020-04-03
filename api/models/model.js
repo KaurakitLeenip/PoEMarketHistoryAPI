@@ -1,70 +1,76 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var ItemSchema = new Schema({
-    name: {
-        type: String,
-        required: "Name needed"
-    },
-    league: {
-        type: String,
-        required: "Leaguename needed"
-    },
-    date: {
-        type: Date,
-        required: "Date needed"
-    },
-    itemType: {
-        type: String,
-        required: "Item Type needed" 
-    },
-    variant: {
-        type: String
-    },
-    links: {
-        type: Number
-    },
-    value: {
-        type: Number,
-        required: "Chaos Value needed"
-    },
-    confidence:{
-        type: String,
-        required: "Confidence Needed"
-    },
+// var ItemSchema = new Schema({
+//     name: {
+//         type: String,
+//         required: "Name needed"
+//     },
+//     league: {
+//         type: String,
+//         required: "Leaguename needed"
+//     },
+//     date: {
+//         type: Date,
+//         required: "Date needed"
+//     },
+//     itemType: {
+//         type: String,
+//         required: "Item Type needed" 
+//     },
+//     variant: {
+//         type: String
+//     },
+//     links: {
+//         type: Number
+//     },
+//     value: {
+//         type: Number,
+//         required: "Chaos Value needed"
+//     },
+//     confidence:{
+//         type: String,
+//         required: "Confidence Needed"
+//     },
 
-    //NEW FIELDS
-    leagueDay: {
-        type: Number, 
-    }
-})
+//     //NEW FIELDS
+//     leagueDay: {
+//         type: Number, 
+//     }
+// })
 
-var CurrencySchema = mongoose.Schema({
-    get: {
+var currency = mongoose.Schema({
+    Buy: {
         type: String,
         required: "get needed"
     },
-    pay: {
+    Sell: {
         type: String,
         required: "pay needed"
     },
-    league: {
+    League: {
         type: String,
         required: "Leaguename needed"
     },
-    value: {
+    Value: {
         type: Number, 
         required: "Conversion Value needed"
     },
-    confidence:{
+    Confidence:{
         type: String,
         required: "Confidence needed"
     },
-
-    //NEW FIELDS
-    leagueDay: {
-        type: Number
+    Date:{
+        type: String,
+        required: "Date Needed"
     }
 
-})
+    //NEW FIELDS
+    // leagueDay: {
+    //     type: Number
+    // }
+
+}, {collection: 'currency'})
+
+module.exports = mongoose.model('currency', currency)
 
