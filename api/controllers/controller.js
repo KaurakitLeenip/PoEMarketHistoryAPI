@@ -10,8 +10,6 @@ Currency = mongoose.model('currency');
 // - get
 // - pay
 exports.get_day = function(req, res){
-    console.log(req.params);
-    console.log(Currency.collection.collectionName)
     Currency.find({
         League: req.params.league_name,
         Date: req.params.date,
@@ -23,3 +21,12 @@ exports.get_day = function(req, res){
         res.json(currency)
     });
 };
+
+//get ratio difference between leaguedays
+
+//get ratio difference between league 
+//progression in terms of percentage
+
+//get largest spike
+
+//get lowest spike
