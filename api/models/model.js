@@ -63,6 +63,9 @@ var currency = mongoose.Schema({
     Date:{
         type: String,
         required: "Date Needed"
+    },
+    LeagueDay: {
+        type: Number
     }
 
     //NEW FIELDS

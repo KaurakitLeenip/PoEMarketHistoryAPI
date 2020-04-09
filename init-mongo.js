@@ -3,8 +3,8 @@ const csvtojson = require("csvtojson");
 
 let url = "mongodb://localhost:27017"
 
-csvtojson()
-    .fromFile("xae.csv")
+csvtojson({delimiter:[";"]})
+    .fromFile("DataDumps/Items/Synthesis.csv")
     .then(csvData => {
         console.log(csvData);
         mongodb.connect(

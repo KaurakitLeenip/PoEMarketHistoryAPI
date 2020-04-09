@@ -1,7 +1,6 @@
 var mongoose = require('mongoose'), 
 Currency = mongoose.model('currency');
 
-
 //
 //get ratio on leagueday
 //params
@@ -12,9 +11,9 @@ Currency = mongoose.model('currency');
 exports.get_day = function(req, res){
     Currency.find({
         League: req.params.league_name,
-        Date: req.params.date,
-        Buy: req.params.get,
-        Sell: req.params.pay
+        Date: req.query.date,
+        Buy: req.query.buy,
+        Sell: req.query.sell
     }, function(err, currency){
         if (err)
             res.send(err);
@@ -23,10 +22,73 @@ exports.get_day = function(req, res){
 };
 
 //get ratio difference between leaguedays
+//params
+// - league_name
+// - daystart
+// - dayend
+// - buy
+// - sell
+exports.get_ratio_diff = function(req, res){
+    console.log(req.params)
+    Currency.findOne({
+        League: req.params.league_name,
+            LeagueDay: req.query.dayEnd,
+            Buy: req.query.buy,
+            Sell: req.query.sell
+    }, function(err, currency){
+        if (err) throw err;
+        console.log(currency)
+        Currency.findOne({
+            League: req.params.league_name, 
+            LeagueDay: req.query.dayStart,
+            Buy: req.query.buy,
+            Sell: req.query.sell
+        }, function(err, curr){
+            if (err) throw err;
+            res.json({
+                Start : curr.Value,
+                End : currency.Value,
+                Ratio : currency.Value-curr.Value
+            })
+        })
+    })
+};
+
+//get ratios per day
+//params 
+// - league_name
+// - get
+// - pay
+// - startday
+// - days
+exports.get_ratio_progress = function(req, res){
+
+
+};
+
+
+//get league days
+//params
+// - league_name
+exports.get_days_in_league = function(req, res){
+    Currency.findOne({League: req.params.league_name}, 
+        {LeagueDay: 1, _id: 0}, 
+        {sort: {LeagueDay: -1}}, 
+        function(err, day){
+            if (err) throw err;
+            res.json({num_days: day.LeagueDay})
+    });    
+}
 
 //get ratio difference between league 
 //progression in terms of percentage
 
 //get largest spike
+exports.get_largest_spike = function(req, res){
 
-//get lowest spike
+};
+
+//get largest decline
+ exports.get_largest_decline = function(req, res){
+
+ };
