@@ -10,4 +10,10 @@ module.exports = function(app){
 
     app.route('/ratio_diff/:league_name')
         .get(MarketHistory.get_ratio_diff)
+
+    app.route('/largest_spike/:league_name')
+        .get(MarketHistory.get_largest_spike)
+
+    app.route('/largest_decline/:league_name')
+        .get(MarketHistory.get_largest_decline)
 };
