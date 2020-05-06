@@ -16,4 +16,10 @@ module.exports = function(app){
 
     app.route('/largest_decline/:league_name')
         .get(MarketHistory.get_largest_decline)
+
+    app.route('/get_currencies/:league_name')
+        .get(MarketHistory.get_currencies)
+
+    app.route('/get_items/:league_name')
+        .get(MarketHistory.get_items)
 };

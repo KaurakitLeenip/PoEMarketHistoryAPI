@@ -4,7 +4,7 @@ const csvtojson = require("csvtojson");
 let url = "mongodb://localhost:27017"
 
 csvtojson({delimiter:[";"]})
-    .fromFile("DataDumps/Items/Synthesis.csv")
+    .fromFile("DataDumps/Items/Legacy.csv")
     .then(csvData => {
         console.log(csvData);
         mongodb.connect(

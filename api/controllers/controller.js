@@ -140,3 +140,25 @@ exports.get_largest_spike = function(req, res){
                 {leagueDay: day, diff: diff})    
         })
 };
+
+
+//get list of all currencies in a league
+//params
+// - league
+//
+exports.get_currencies = function(req, res){
+    Currency.distinct('Buy', {League: req.params.league_name}, function(err, currencies){
+        res.json(currencies)
+    })
+
+}
+
+//get list of all items in a type
+//params
+// - league
+// - type
+exports.get_items = function(req, res){
+    Item.distinct('Name', {League: req.params.league_name}, function(err, items){
+        res.json(items)
+    })
+}
