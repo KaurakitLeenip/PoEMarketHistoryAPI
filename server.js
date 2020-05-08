@@ -11,6 +11,7 @@ mongoose.connect('mongodb://localhost/marketHistory');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+
 var routes = require('./api/routes/routes');
 routes(app);
 

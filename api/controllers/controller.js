@@ -1,24 +1,42 @@
 var mongoose = require('mongoose'), 
 Currency = mongoose.model('currency');
+validate = require('express-validator')
 
 //
 //get ratio on leagueday
 //params
 // - league_name
-// - date
 // - get
 // - pay
-exports.get_day = function(req, res){
-    Currency.find({
-        League: req.params.league_name,
-        Date: req.query.date,
-        Buy: req.query.buy,
-        Sell: req.query.sell
-    }, function(err, currency){
-        if (err)
-            res.send(err);
-        res.json(currency)
-    });
+// - date
+// - leagueDay
+exports.get_day = function (req, res, next) {
+    try{
+        const errors = validate.validationResult(req)
+        if (!errors.isEmpty()){
+            res.status(422).json({errors: errors.array()})
+            return
+        }
+        var query = {
+            League: req.params.league_name,
+            Buy: req.query.buy,
+            Sell: req.query.sell,
+            $or: [
+                {Date: req.query.date},
+                {LeagueDay: req.query.leagueDay}
+            ]
+        }
+
+        Currency.find(query, 
+            function(err, currency){
+            if (err)
+                res.send(err);
+            res.json(currency)
+        });
+
+    } catch(err) {
+        return next(err)
+    }
 };
 
 //get ratio difference between leaguedays
@@ -29,7 +47,6 @@ exports.get_day = function(req, res){
 // - buy
 // - sell
 exports.get_ratio_diff = function(req, res){
-    console.log(req.params)
     Currency.findOne({
         League: req.params.league_name,
             LeagueDay: req.query.dayEnd,
@@ -162,3 +179,5 @@ exports.get_items = function(req, res){
         res.json(items)
     })
 }
+
+//TODO: add
