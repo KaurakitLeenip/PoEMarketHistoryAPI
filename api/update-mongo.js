@@ -10,13 +10,13 @@ mongodb.connect(
         client
             .db("marketHistory")
             .collection("item")
-            .distinct("Date", {League: "Legacy"}, (err, result) => {
+            .distinct("Date", {League: "Breach"}, (err, result) => {
                 if (err) throw err;
                 var sorted = result.sort();
                 sorted.forEach((currentValue, index) => {
                     console.log(currentValue)
                     client.db("marketHistory")
-                    .collection("currency")
+                    .collection("item")
                     .updateMany({"Date" : currentValue}, {"$set": {"LeagueDay": index}}, function(err, result){
                         if (err) throw err;
                         console.log(result)

@@ -1,34 +1,40 @@
 module.exports = function(app){
-    var MarketHistory = require('../controllers/controller')
+    var currency_history = require('../controllers/currency-controller')
+    var item_history = require('../controllers/item-controller')
     var validator = require("../validation.js")
 
     //routes
-    app.get('/day/:league_name/',
+    app.get('/day/:league_name/currency',
         validator.validate('get_day'),
-        MarketHistory.get_day
+        currency_history.get_day
     )
 
-    app.get('/num_days/:league_name',
-        MarketHistory.get_days_in_league
+    app.get('/day/:league_name/item',
+        item_history.get_day
     )
 
-    app.get('/ratio_diff/:league_name',
-        MarketHistory.get_ratio_diff
+    app.get('/num_days/:league_name/',
+        currency_history.get_days_in_league
     )
 
-    app.get('/largest_spike/:league_name',
-        MarketHistory.get_largest_spike
+    app.get('/ratio_diff/:league_name/currency',
+        validator.validate('get_ratio_diff'),
+        currency_history.get_ratio_diff
     )
 
-    app.get('/largest_decline/:league_name',
-        MarketHistory.get_largest_decline
+    app.get('/largest_spike/:league_name/currency',
+        currency_history.get_largest_spike
+    )
+
+    app.get('/largest_decline/:league_name/currency',
+        currency_history.get_largest_decline
     )
 
     app.get('/get_currencies/:league_name',
-        MarketHistory.get_currencies
+        currency_history.get_currencies
     )
 
     app.get('/get_items/:league_name',
-        MarketHistory.get_items
+        currency_history.get_items
     )
 };

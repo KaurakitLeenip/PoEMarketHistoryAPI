@@ -1,16 +1,59 @@
-const validater = require('express-validator')
+const validator = require('express-validator')
 
-exports.validate = (method) =>{
+exports.validate = (method) => {
     switch (method){
         case 'get_day': {
             return [ 
-                validater.query('sell', 'sell is a required field').exists(),
-                validater.query('buy', 'buy is a required value').exists(),
-                validater.query(['date', 'leagueDay'], 'date xor leagueDay is a required field').optional().exists().custom((value, {req}) => {
-                    console.log(req.params)
-                    console.log("leagueDay" in req.query ? !("date" in req.query) : "date" in req.query)
+                validator.query('sell', 'sell is a required field').exists(),
+                validator.query('buy', 'buy is a required value').exists(),
+                validator.query(['date', 'leagueDay']).optional().exists().custom((value, {req}) => {
                     if (!("leagueDay" in req.query ? !("date" in req.query) : "date" in req.query)){
-                        throw new Error('date and leagueDay cannot be present or none can be present')
+                        throw new Error('date and leagueDay are mutually exclusive fields')
+                    }
+                    else{
+                        return true
+                    }
+                }),
+                validator.oneOf([
+                    validator.query('date').exists(),
+                    validator.query('leagueDay').exists()
+                ], 'day or date is required')
+            ]
+        }
+        case 'get_ratio_diff': {
+            return [
+                validator.query('buy', 'buy is a required field').exists(),
+                validator.query('sell', 'sell is a required field').exists(),
+                validator.query(['dayStart', 'dayEnd', 'dateStart', 'dateEnd']).optional().custom((value, {req}) => {
+                    var days = req.query.dayStart && req.query.dayEnd
+                    var dates = req.query.dateStart && req.query.dateEnd
+                    if (!days && !dates){
+                        throw new Error('invalid query. please specify either both dates or both days')
+                    }
+                    else if (days && dates){
+                        throw new Error('days and dates are mutually exclusive')
+                    }
+                    else{
+                        return true
+                    }
+                }),
+                validator.oneOf([
+                    validator.query('dayStart').exists(),
+                    validator.query('dayEnd').exists(),
+                    validator.query('dateStart').exists(),
+                    validator.query('dateEnd').exists()
+                ], 'day or dates are required'),
+                validator.query(['dayStart, dayEnd']).optional().custom((value, {req}) => {
+                    if(req.query.dayStart > req.query.dayEnd){
+                        throw new Error('dayStart must be smaller than dayEnd')
+                    }
+                    else{
+                        return true
+                    }
+                }),
+                validator.query(['dateStart', 'dateEnd']).optional().custom((valie, {req}) => {
+                    if(req.query.dateStart > req.query.dateEnd){
+                        throw new Error('dateStart must be smaller than dateEnd')
                     }
                     else{
                         return true
@@ -18,32 +61,5 @@ exports.validate = (method) =>{
                 })
             ]
         }
-
     }
-
 }
-
-
-// const getDayValidationRules = () => {
-//     return[
-//         validater.query('get', 'get is a required field').exists(),
-//         validater.query('buy', 'buy is a required value').exists()
-//     ]
-// }
-
-// const validate = (req, res, next) => {
-//     const errors = validater.validationResult(req)
-//     if (errors.isEmpty()){
-//         return next()
-//     }
-//     const extractedErrors = []
-//     errors.array().map(err => extractedErrors.push({ [err.param]: err.msg }))
-
-//     return res.status(422).json({
-//         errors: extractedErrors,
-//     })
-// // }
-
-// module.exports = {
-//     validate
-// }

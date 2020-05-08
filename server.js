@@ -15,7 +15,6 @@ app.use(bodyParser.json());
 var routes = require('./api/routes/routes');
 routes(app);
 
-
 app.listen(port);
 
 console.log("server started on: " + port);
